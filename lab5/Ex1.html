@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    hello!
+    <script>
+        var myCoolFirstName = "Alyssa";
+        var myCoolMiddleName = "Clare";
+        var myCoolLastName = "Mencel";
+        var fullname = myCoolFirstName + " " + myCoolMiddleName + " " + myCoolLastName;
+        var formatted_name = fullname + '<br>' + myCoolFirstName[0] + "." + myCoolLastName[0] + ".";
+        var fancy_name = '<b>' + myCoolFirstName + '</b>' + '<br>' + '<i>' + myCoolMiddleName + '</i>' + '<br>' + '<font size="+2">' + myCoolLastName + '</font>';
+        document.write(fancy_name); 
+    </script>
+    <script>
+        var bill =  24.00;
+        var tax = bill*0.0413;
+        var taxDecimal= tax.toFixed(2);
+        document.write('<br>' + "The tax on " + myCoolFirstName + "'s bill is" + " $" + taxDecimal);
+    </script>
+    <div id="ageDiv"></div>
+</body>
+</html> 
+<script>
+    var number_of_kids = 2;
+    var age = 20;
+    document.getElementById("ageDiv").innerHTML = " I want " + number_of_kids*age + " kids";
+</script>
