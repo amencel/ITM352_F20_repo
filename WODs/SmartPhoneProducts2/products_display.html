@@ -40,11 +40,11 @@
     <div><main>
     <script>
     for (i=1; i<=numitems; i++) {
-        document.write (`
+        document.write (`<section class= "item">
         <h2> ${eval('brand'+i)} </h2>
         <p>${eval('price'+i)} </p>
         <img src=${eval('image'+i)} >
-        `)
+        </section>`)
 }
     </script>
 </main></div>
