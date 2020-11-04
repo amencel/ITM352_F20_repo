@@ -16,9 +16,8 @@ src="./products.js" type="text/javascript"> //uses a get request to get the prod
           }
 
         } else {
-          document.write('Please enter a valid quantity!');
+          window.location.href = './product_display.html'; // if there is nothing entered in any of the textboxes, send the user back to the product display page to select quantitiy amounts
         }
-        console.log(quantities);
       </script>  
 
   <!DOCTYPE html>
@@ -44,7 +43,7 @@ src="./products.js" type="text/javascript"> //uses a get request to get the prod
         <ul>
             <li style="float:left"><a href="./index.html">Sustainable Outfitters</a></li>
             <li><a class="active" href="./invoice.html">Shopping Cart</a></li>
-            <li><a href="./productspage.html">Products</a></li>
+            <li><a href="./products_display.html">Products</a></li>
           </ul>
           <br>
           <div class="col-25">
@@ -127,7 +126,7 @@ src="./products.js" type="text/javascript"> //uses a get request to get the prod
         <div class="row">
           <div class="col-75">
             <div class="container">
-              <form action="/action_page.php">
+              <form name="complete_purchase" action="./complete_purchase.html" method="GET">
         
                 <div class="row">
                   <div class="col-50">

@@ -17,46 +17,35 @@ app.all('*', function (request, response, next) { //for all request methods...
 
 app.use(myParser.urlencoded({ extended: true })); //get data in the body
 
-app.post("/process_purchase", function (request, response) { //process the quantity_form when the POST request is initiated to form a response from the values in the form
-    let POST = request.body; // data would be packaged in the body
+app.post("/process_purchase", function (request, response) {
+    let POST = request.body; // data would be packaged in the body//
 
-    if (typeof POST['submitPurchase'] != 'undefined') { //if the POST request is not undefined...
-        var validAmount = true; // creating a variable 'validAmount' and assuming it will be true
-        var amount = false; // creating a variable 'amount' and assuming it will be false
-
-        for (i = 0; i < products_array.length; i++) { //for any given tour...
-            qty = POST[`quantity_textbox${i}`]; //set variable 'qty' to the value in quantity_textbox
-
-            if (qty > 0) {
-                amount = true; // If it has a value greater than 0 then it is ok
-            }
-
-            if (isNonNegInt(qty) == false) { //if isNonNegInt is false then it is an invalid input, so...
-                validAmount = false; // it is not a valid amount
-            }
-
-        }
-
-        const stringified = queryString.stringify(POST); //converts the data in POST to a JSON string and sets it to variable 'stringified'
-
-        if (validAmount && amount) { //if it is both a quantity over 0 and is valid...
-            response.redirect("./invoice.html?" + stringified); // redirect the page to the invoice page with the stringified path in the query string
-        }
-
-        else { response.redirect("./index.html?" + stringified) } //if there is invalid input, it re-routes back to the index page with the stringified path in the query string
-
+    if (typeof POST['submitPurchase'] != 'undefined') {
+        var hasvalidquantities=true; // creating a varibale assuming that it'll be true// 
+        var hasquantities=false
+        for (i = 0; i < products.length; i++) {
+            
+                        qty=POST[`quantity${i}`];
+                        hasquantities=hasquantities || qty>0; // If it has a value bigger than 0 then it is good//
+                        hasvalidquantities=hasvalidquantities && isNonNegInt(qty);    // if it is both a quantity over 0 and is valid//     
+        } 
+        // if all quantities are valid, generate the invoice// 
+        const stringified = queryString.stringify(POST);
+        if (hasvalidquantities && hasquantities) {
+            response.redirect("./invoice.html?"+stringified); // using the invoice.html and all the data that is input//
+        }  
+        else {response.send('Enter a valid quantity!')} 
     }
-
 });
 
 //repeats the isNonNegInt function from the index.html file because there is no relation between the index.html page and server, so it needs to be redefined here for the server to process the form and know what to do if there is invalid data inputs in the quantity_textbox fields
-function isNonNegInt(q, return_errors = false) {
-    errors = []; // assume no errors at first
-    if (q == '') q = 0; // handle blank inputs as if they are 0
-    if (Number(q) != q) errors.push('<font color="red">Not a number</font>'); // Check if string is a number value
-    if (q < 0) errors.push('<font color="red">Negative value</font>'); // Check if it is non-negative
-    if (parseInt(q) != q) errors.push('<font color="red">Not a full tour</font>'); // Check that it is an integer
-    return return_errors ? errors : (errors.length == 0);
+function isNonNegInt(q, returnErrors = false) {
+    errors = []; // assume that quantity data is valid 
+    if (q == "") { q = 0; }
+    if (Number(q) != q) errors.push('Not a number!'); //check if value is a number
+    if (q < 0) errors.push('Negative value!'); //check if value is a positive number
+    if (parseInt(q) != q) errors.push('Not an integer!'); //check if value is a whole number
+    return returnErrors ? errors : (errors.length == 0);
 }
 
 app.use(express.static('./public')); // root in the 'public' directory so that express will serve up files from here
