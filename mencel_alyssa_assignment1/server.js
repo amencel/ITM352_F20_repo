@@ -18,21 +18,22 @@ app.all('*', function (request, response, next) { //for all request methods...
 app.use(myParser.urlencoded({ extended: true })); //get data in the body
 
 app.post("/process_purchase", function (request, response) {
-    let POST = request.body; // data would be packaged in the body//
+    let POST = request.body; // data would be packaged in the body
 
+    //check if quantities are nonnegative integers 
     if (typeof POST['submitPurchase'] != 'undefined') {
-        var hasvalidquantities=true; // creating a varibale assuming that it'll be true// 
+        var hasvalidquantities=true; // creating a varibale assuming that it'll be true
         var hasquantities=false
         for (i = 0; i < products.length; i++) {
             
                         qty=POST[`quantity${i}`];
-                        hasquantities=hasquantities || qty>0; // If it has a value bigger than 0 then it is good//
-                        hasvalidquantities=hasvalidquantities && isNonNegInt(qty);    // if it is both a quantity over 0 and is valid//     
+                        hasquantities=hasquantities || qty>0; // If it has a value bigger than 0 then it is good
+                        hasvalidquantities=hasvalidquantities && isNonNegInt(qty);    // if it is both a quantity over 0 and is valid    
         } 
         // if all quantities are valid, generate the invoice// 
         const stringified = queryString.stringify(POST);
         if (hasvalidquantities && hasquantities) {
-            response.redirect("./invoice.html?"+stringified); // using the invoice.html and all the data that is input//
+            response.redirect("./invoice.html?"+stringified); // using the invoice.html and all the data that is input
         }  
         else {response.send('Enter a valid quantity!')} 
     }
