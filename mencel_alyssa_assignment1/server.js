@@ -17,7 +17,7 @@ app.all('*', function (request, response, next) { //for all request methods...
 
 app.use(myParser.urlencoded({ extended: true })); //get data in the body
 
-app.post("/process_form", function (request, response) { //process the quantity_form when the POST request is initiated to form a response from the values in the form
+app.post("/process_purchase", function (request, response) { //process the quantity_form when the POST request is initiated to form a response from the values in the form
     let POST = request.body; // data would be packaged in the body
 
     if (typeof POST['submitPurchase'] != 'undefined') { //if the POST request is not undefined...

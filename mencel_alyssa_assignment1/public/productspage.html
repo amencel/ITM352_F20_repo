@@ -28,13 +28,13 @@
             //the following checks for every product in the array... 
             for (i = 0; i < products.length; i++) { 
 
-                if (params.has(`quantity_textbox${i}`)) { // check the quantity_textbox for input
-                    qty = params.get(`quantity_textbox${i}`); //get the value for quantity_textbox for any product and makes textboxx sticky in case of invalid data
-                    product_form[`quantity_textbox${i}`].value = qty; // the value of quantity_textbox is set to variable 'qty'
+                if (params.has(`QuantityTextbox${i}`)) { // check the quantity_textbox for input
+                    qty = params.get(`QuantityTextbox${i}`); //get the value for quantity_textbox for any product and makes textboxx sticky in case of invalid data
+                    product_form[`QuantityTextbox${i}`].value = qty; // the value of quantity_textbox is set to variable 'qty'
                     total_qty += qty; // adds the most recently-loaded quantity_textbox value to the total value
                     if (!isNonNegInt(qty)) { // if qty is not a valid input
                         errors = true; // there are errors
-                        checkQuantityTextbox(product_form[`quantity_textbox${i}`]); //show where the errors are
+                        checkQuantityTextbox(product_form[`QuantityTextbox${i}`]); //show where the errors are
                     }
 
                 }
@@ -45,10 +45,11 @@
                 alert("Please enter valid product amounts");
             } else if (total_qty == 0) { // no quantity selections, just give a general alert
                 alert("Please select a product ammount before submitting your purchase order");
+            } else { // all good to go!
+                window.location = `./Invoice.html${document.location.search}`; //Redirects itself
+                window.stop;
             }
-
         }
-
     }
 </script>
 <!DOCTYPE html>
