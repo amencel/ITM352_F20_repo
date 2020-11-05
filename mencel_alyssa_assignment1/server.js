@@ -35,7 +35,9 @@ app.post("/process_purchase", function (request, response) {
         if (hasvalidquantities && hasquantities) {
             response.redirect("./invoice.html?"+stringified); // using the invoice.html and all the data that is input
         }  
-        else {response.send('Enter a valid quantity!')} 
+        else { 
+            response.redirect("./products_display.html?" + stringified) 
+        }
     }
 });
 

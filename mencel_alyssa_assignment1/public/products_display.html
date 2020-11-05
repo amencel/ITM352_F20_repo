@@ -3,9 +3,9 @@
 </script>
 <script>
     // taken from lab 12 order_page.html and refrenced from the assignment 1 examples
-    function isNonNegInt(q, return_errors = false) {
+    function isNonNegInt(q, return_errors = false) { //this function checks if values are postitive, integer, whole values 
         errors = []; // assume no errors at first
-        if (q == '') q = 0; // handle blank inputs as if they are 0
+        if (q == '') q = 0; //sets blank inputs to the quantitiy of 0 
         if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
         else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
         else if (parseInt(q) != q) errors.push('<font color="red">Not a full value!</font>'); // Check that it is an integer

@@ -4,36 +4,39 @@
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     margin: 0 -16px;
-  }
+    width: 75%;
+}
   
   .col-25 {
     -ms-flex: 25%; /* IE10 */
     flex: 25%;
+
   }
   
   .col-50 {
     -ms-flex: 50%; /* IE10 */
     flex: 50%;
+ 
   }
   
   .col-75 {
     -ms-flex: 75%; /* IE10 */
     flex: 75%;
   }
-  
   .col-25,
   .col-50,
   .col-75 {
     padding: 0 16px;
+    float: left;
   }
   
   .container {
-    background-color: #f2f2f2;
+    background-color: whitesmoke;
     padding: 5px 20px 15px 20px;
-    border: 1px solid lightgrey;
+    border: 1px solid grey;
     border-radius: 3px;
   }
-  
+  /* styling the input text in billing information */
   input[type=text] {
     width: 100%;
     margin-bottom: 20px;
@@ -46,13 +49,13 @@
     margin-bottom: 10px;
     display: block;
   }
-  
+  /* styling the icons*/
   .icon-container {
     margin-bottom: 20px;
     padding: 7px 0;
     font-size: 24px;
   }
-  
+  /* styling the complete purchase button*/
   .btn {
     background-color: lightpink;
     color: white;
@@ -64,7 +67,7 @@
     cursor: pointer;
     font-size: 17px;
   }
-  
+
   .btn:hover {
     background-color: powderblue;
   }
@@ -74,12 +77,22 @@
     color: grey;
   }
   
-  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
-  @media (max-width: 800px) {
-    .row {
-      flex-direction: column-reverse;
-    }
-    .col-25 {
-      margin-bottom: 20px;
-    }
+
+  /* styling the invoice table*/
+  table {
+    border-collapse: collapse;
+    border: 1;
+  }
+  th, td {
+    padding: 5px;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:nth-child(even) {
+    background-color: white;
+  }
+  
+  th {
+    background-color: powderblue;
   }
