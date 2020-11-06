@@ -41,15 +41,15 @@ app.post("/process_purchase", function (request, response) {
     }
 });
 
-//repeats the isNonNegInt function from the index.html file because there is no relation between the index.html page and server, so it needs to be redefined here for the server to process the form and know what to do if there is invalid data inputs in the quantity_textbox fields
+//repeats the isNonNegInt function from the products_display.html file 
 function isNonNegInt(q, returnErrors = false) {
     errors = []; // assume that quantity data is valid 
     if (q == "") { q = 0; }
-    if (Number(q) != q) errors.push('Not a number!'); //check if value is a number
-    if (q < 0) errors.push('Negative value!'); //check if value is a positive number
-    if (parseInt(q) != q) errors.push('Not an integer!'); //check if value is a whole number
+    if (Number(q) != q) errors.push('Not a number!'); //check if the string is a number
+    if (q < 0) errors.push('Negative value!'); //check if value is a positive
+    if (parseInt(q) != q) errors.push('Not an integer!'); //check if value is an integer
     return returnErrors ? errors : (errors.length == 0);
 }
 
 app.use(express.static('./public')); // root in the 'public' directory so that express will serve up files from here
-app.listen(8080, () => console.log(`listening on port 8080`)); //run the server on port 8080 and write it in the console
+app.listen(8080, () => console.log(`listening on port 8080`)); //run the server on port 8080 and show it in the console
