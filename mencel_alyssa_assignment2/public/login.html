@@ -4,6 +4,7 @@
 <head>
 
     <script>
+        //this part alerts the user if the have a login error, either the username or password
         let params = (new URL(document.location)).searchParams;
 
         window.onload = function () {
@@ -19,7 +20,12 @@
     <link rel="stylesheet" href="./stylesheets/loginregister.css">
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Oswald">
-    <title>Login Page</title>
+    <title>Login!</title>
+    <style>
+    body {
+        background-image: url(./images/palmtree.jpg);
+       };
+    </style>
 </head>
 
 <body> 
@@ -32,8 +38,8 @@
         <li><a class="active" href="./login.html">Login</a></li>
       </ul>
 
-    <h1>Sustainable Outfitter's User Log In Page!</h1>
-    <p>To buy our products you must<br> login or register as a member</p>
+    <h1><mark>Sustainable Outfitter's User Log In Page!</mark></h1>
+    <p><mark>To buy our products you must<br> login or register as a member</mark></p>
     <form name="login" action="process_login" method="POST">
         <div class="container"><br>
             <input type="text" name="username" id="username" size="40" placeholder="Enter Username" required><br>
@@ -46,17 +52,9 @@
     </form>
     <script>
         
-       login.action += document.location.search; // action plus the query string so info won't be lost from the intitial display page
+       login.action += document.location.search; //saves the query string from the products page for the invoice 
     </script>
-</body>
-
-
-<body>
-
     <input type="button" name="newuser" value="New User Register Here!" class="btn2"
         onclick="window.location='./register.html' + document.location.search;">
-
-
-</body>
 
 </html>

@@ -22,6 +22,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Oswald">
     <title>Registration Page</title>
+    <style>
+       body {
+        background-image: url(./images/palmtree.jpg);
+       };
+    </style>
 </head>
 
 <body>
@@ -31,12 +36,12 @@
         <li><a href="./invoice.html">Shopping Cart</a></li>
         <li><a href="./products_display.html">Products</a></li>
         <li><a class="active" href="./register.html">Register</a></li>
-        <li><a href="./login.html">Login</a></li>
       </ul>
-    <header>
-        Register an account with Sustainable Outfitters before your purchase!
-    </header>
-    <div>
+    <h1><mark>  Register an account with Sustainable Outfitters before your purchase!  
+    </mark>
+    </h1>
+    <!--creates the form for users to register-->
+    <div id='account'>
         <form method="POST" action="process_register" name="Register">
             <input type="text" name="fullname" size="40" pattern="[a-zA-Z]+[ ]+[a-zA-Z]+"
                 placeholder="Enter First & Last Name"><br />
@@ -45,17 +50,19 @@
                 placeholder="Enter Username"><br />
             <input type="email" name="email" size="40" placeholder="Enter Email"
                 pattern="[a-z0-9._]+@[a-z0-9]+\.[a-z]{3,}$" required title="Please enter valid email."><br />
-            <input type="password" id="password" name="password" size="40" pattern=".{8,}" required
-                title="8 Characters Minimum" placeholder="Enter Password"><br />
-            <input type="password" id="repeat_password" name="repeat_password" size="40" pattern=".{8,}" required
-                title="8 Characters Minimum" placeholder="Repeat Password"><br />
+            <input type="password" id="password" name="password" size="40" pattern=".{6,}" required
+                title="6 Characters Minimum" placeholder="Enter Password"><br />
+            <input type="password" id="repeat_password" name="repeat_password" size="40" pattern=".{6,}" required
+                title="6 Characters Minimum" placeholder="Repeat Password"><br />
 
             <input type="submit" value="Register" class="btn">
         </form>
         <script>
-            Register.action += document.location.search;
+            Register.action += document.location.search; //saves the query string from the products page for the invoice
         </script>
     </div>
+    <input type="button" name="olduser" value="Returning Users Click Here!" class="btn2"
+        onclick="window.location='./login.html' + document.location.search;">
 </body>
 
 </html>

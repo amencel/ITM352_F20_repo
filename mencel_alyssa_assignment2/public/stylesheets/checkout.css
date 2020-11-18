@@ -1,4 +1,5 @@
-/* styling the nav bar, used help from w3schools.com*/
+/* styling the header that matches with the user's account*/
+/* styling the checkout, used help from w3schools.com*/
 .row {
     display: -ms-flexbox; 
     display: flex;
@@ -11,7 +12,6 @@
   .col-25 {
     -ms-flex: 25%; 
     flex: 25%;
-
   }
   
   .col-50 {
@@ -28,7 +28,7 @@
   .col-50,
   .col-75 {
     padding: 0 16px;
-    float: left;
+    align-content: center;
   }
   
   .container {
@@ -68,7 +68,7 @@
     cursor: pointer;
     font-size: 17px;
   }
-/* styling the complete purchaseebutton */
+/* styling the complete purchase button */
   .btn:hover {
     background-color: powderblue;
   }
