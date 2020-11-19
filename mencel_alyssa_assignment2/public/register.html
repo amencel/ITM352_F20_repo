@@ -1,3 +1,4 @@
+<!--registration page for users! this was created with help from lab 14 and w3schools.com-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
         let params = (new URL(document.location)).searchParams;
 
         window.onload = function () { // creating the function for window.onload
-            //if there are errors in the registration data , tell the user
+            //if there are errors it tells the user 
             if (params.has('errors')) {
 
                 console.log("invalid");
@@ -22,6 +23,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Oswald">
     <title>Registration Page</title>
+    <!--this sets the background image and helps style the page-->
     <style>
        body {
         background-image: url(./images/palmtree.jpg);
@@ -40,7 +42,7 @@
     <h1><mark>  Register an account with Sustainable Outfitters before your purchase!  
     </mark>
     </h1>
-    <!--creates the form for users to register-->
+    <!--creates the form for users to register, used code from w3schools.com-->
     <div id='account'>
         <form method="POST" action="process_register" name="Register">
             <input type="text" name="fullname" size="40" pattern="[a-zA-Z]+[ ]+[a-zA-Z]+"
@@ -61,6 +63,7 @@
             Register.action += document.location.search; //saves the query string from the products page for the invoice
         </script>
     </div>
+    <!--this is the button that will take users to login if they already have an account-->
     <input type="button" name="olduser" value="Returning Users Click Here!" class="btn2"
         onclick="window.location='./login.html' + document.location.search;">
 </body>
