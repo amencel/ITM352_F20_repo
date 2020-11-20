@@ -40,7 +40,7 @@ app.post("/process_login", function (req, res) {
             req.query.username = the_username; 
             console.log(users_reg_data[req.query.username].name);
             req.query.name = users_reg_data[req.query.username].name
-            res.redirect('/Invoice.html?' + queryString.stringify(req.query));
+            res.redirect('/invoice.html?' + queryString.stringify(req.query));
             return; //this will redirect them to the invoice if username and password are entered correctly 
         } else { //if password is not entered correctly tells the user invalid password 
             LogError.push = ('Invalid Password');
