@@ -1,0 +1,150 @@
+<!--Alyssa Mencel's Registration Page-->
+<!--used help from lab 14 and ww3schools.com-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        let params = (new URL(document.location)).searchParams;
+
+        window.onload = function () { // creating the function for window.onload
+            //if there are errors it tells the user 
+            if (params.has('errors')) {
+
+                console.log("invalid");
+                alert('Fix the following errors: \n' + params.get('errors'));
+            }
+        }    
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./stylesheets/navbar.css">
+    <link rel="stylesheet" href="./stylesheets/loginregister.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Oswald">
+    <title>Register an Account!</title>
+    <!--this sets the background image and helps style the page-->
+    <style>
+       body {
+        background-image: url(./images/palmtree.jpg);
+       };
+    </style>
+</head>
+
+<body>
+    <!--create navbar, used code from w3schools.com-->
+    <ul>
+        <li style="float:left"><a href="./index.html">Sustainable Outfitters</a></li>
+        <li><a href="./invoice.html">Shopping Cart</a></li>
+        <li><a href="./products_display.html">Products</a></li>
+        <li><a class="active" href="./register.html">Register</a></li>
+      </ul>
+    <h1><mark>  Register an account with Sustainable Outfitters before your purchase!  
+    </mark>
+    </h1>
+    <!--creates the form for users to register, used code from w3schools.com-->
+    <div id='account'>
+        <form method="POST" action="process_register" name="Register">
+            <input type="text" name="fullname" size="40" pattern="[a-zA-Z]+[ ]+[a-zA-Z]+"
+                placeholder="Enter First & Last Name"><br />
+            <input type="text" name="username" size="40" pattern=".[a-z0-9]{3,10}" required
+                title="Minimum 4 Characters, Maximum 10 Characters, Numbers/Letters Only"
+                placeholder="Enter Username"><br />
+            <input type="email" name="email" size="40" placeholder="Enter Email"
+                pattern="[a-z0-9._]+@[a-z0-9]+\.[a-z]{3,}$" required title="Please enter valid email."><br />
+            <input type="password" id="password" name="password" size="40" pattern=".{6,}" required
+                title="6 Characters Minimum" placeholder="Enter Password"><br />
+            <input type="password" id="repeat_password" name="repeat_password" size="40" pattern=".{6,}" required
+                title="6 Characters Minimum" placeholder="Repeat Password"><br />
+
+            <input type="submit" value="Register" class="btn">
+        </form>
+        
+        <script>
+            //this function was taken from w3schools.com
+        function setCookie(cname, cvalue, exdays) { //set cookie with name, value, and expiration
+            var d = new Date(); //today's date
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is one day after login
+            var expires = "expires=" + d.toUTCString(); //put in string
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //put into local cookie
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
+
+        //taken from stackoverflow.com
+        function GoBackWithRefresh(event) { //function to go to previous page
+            var past = document.referrer;
+            var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+
+            if (pastPage != 'login.html' && pastPage != 'register.html') { //if the past page is the login, registration, or cart...
+                window.location = past;
+            } else if (pastPage == 'login.html' && pastPage == 'register.html') {
+                window.history.go(-2); //go back 2 pages instead of to that last page
+            } else {
+                window.location.href = './index.html'; //otherwise go to home page
+            }
+        };
+
+        //Taken from Assignment1_1Microservice example
+        function register_user() { //function to validate the form on the server and return errors (if any) to the browser without leaving the page
+            data = new URLSearchParams(new FormData(registration_form)); // 'data' is set to the registration_form data string
+
+            fetch('/register_user', //fetch the response from app.post for register_user from the server
+                {
+                    method: 'post',
+                    body: data,
+                    redirect: 'follow'
+                }
+            ).then(function (response) { //after fetch comes back from the server, execute function
+
+                if (response.ok) { //if the response is ok...
+
+                    response.json().then(function (errors) { //then make the response 'errors' a json object
+
+                        if (Object.keys(errors).length == 0) { //if no errors...
+                            sessionStorage.clear(); //reset session
+                            var theDate = JSON.stringify(Date()); //sets the time of login
+                            var username = registration_form.username;
+                            var userEmail = registration_form.email;
+                            var user_name = registration_form.name;
+                            setCookie('last_login_time', JSON.parse(theDate),'username', username, 'email', userEmail, 'name', user_name); //remember this login time in session
+                            response.redirect(GoBackWithRefresh()); //redirect to last-visited page
+                        } else {
+
+                            for (errorId in errors) { // if there are errors associated with the error message span...
+                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; //write those errors to the appropriate span
+                            }
+
+                        }
+
+                    });
+
+                }
+
+                else {
+                    console.log('Network request for /register_user failed with response ' + response.status + ': ' + response.statusText); //notify me in the console if the request didn't go through
+                }
+
+            });
+        }
+
+        </script>
+    </div>
+    <!--this is the button that will take users to login if they already have an account-->
+    <input type="button" name="olduser" value="Returning Users Click Here!" class="btn2"
+        onclick="window.location='./login.html' + document.location.search;">
+</body>
+
+</html>

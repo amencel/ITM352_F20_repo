@@ -1,0 +1,211 @@
+<!--Alyssa Mencel's Invoice Page-->
+<!--linking the products array-->
+<script src="./products.js" type="text/javascript"></script>
+<!-- uses get request for the data in services_data.js -->
+
+<script>
+
+    var cart = sessionStorage; //sets 'cart' to the local session
+    var quantities = []; //create empty variable 'quantities'
+
+    if (cart.length == 0) { //if cart is not empty...
+        history.go(-1); // if there is nothing entered in any of the textboxes, send the user back to the page they were at previously to select tour amounts
+        alert('Shopping Cart is Empty! Please Select Tour Amounts'); //notice to renter tour amounts
+    };
+
+    //function taken from w3 schools
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+        var ca = decodedCookie.split(';'); //split up string by ';'
+        for (var i = 0; i < ca.length; i++) { //split up by names
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    };
+
+    function addItem(theService, theIndex) { //function to increase that row's tour amount by 1
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theService}${theIndex}`)); //parse it
+        thisRowQty += 1; //add 1 to number
+        sessionStorage.setItem(`${theService}${theIndex}`, thisRowQty); //set the new value to session
+        window.location.reload(); //reload page to show changes in cart
+    };
+
+    function removeItem(theService, theIndex) { //function to increase that row's tour amount by 1
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theService}${theIndex}`)); //parse it
+        if (thisRowQty > 0) { //if it is greater than 0, enable subtract to avoid neg values
+            thisRowQty -= 1; //subtract 1
+            sessionStorage.setItem(`${theService}${theIndex}`, thisRowQty); //add new value to session
+            window.location.reload(); //reload page to show changes
+        }
+
+    };
+
+    //taken from stackoverflow.com
+    function GoBackWithRefresh(event) { //function to go to previous page
+        var past = document.referrer;
+        var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+
+        if (pastPage != 'login.html' && pastPage != 'register.html' && pastPage != 'cart.html') { //if the past page is the login, registration, or cart...
+            window.location = past;
+        } else if (pastPage == 'login.html' && pastPage == 'register.html' && pastPage == 'cart.html') {
+            window.history.go(-2); //go back 2 pages instead of to that last page
+        } else {
+            window.location.href = './index.html'; //otherwise go to home page
+        }
+    };
+
+    function checkCart() {
+        if (cart.length == 0) {
+            window.location.reload();
+        } else if (theUsername == '') {
+            alert(`Please log in before viewing cart`);
+            window.location.href = './login.html';
+        } else {
+            fetch("/generateInvoice?cartData="+JSON.stringify(cart)+"&cookieData="+JSON.stringify(document.cookie), 
+            {
+                method: "POST"
+            }).then(function (res) {
+                return res.text();
+            }).then(function (data) {
+                document.write(data);
+            })
+        }
+    }
+
+</script>
+
+<!-- Copied from order_page_Ex4.html in Lab13 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="./assets/css/main.css" rel="stylesheet"> <!-- Link CSS stylesheet -->
+</head>
+
+<header align="center">
+    <!-- Center header on page -->
+    <h1>Shopping Cart</h1>
+    <hr /> <!-- Title of page -->
+</header>
+
+<body>
+
+    <script> // Above the invoice, thank the user personally by his/her name
+        var theUser = getCookie('name'); //theUser is the cookie for user's name
+        var theUsername = getCookie('username'); //sets variable for username in cookie
+        if (theUsername != '') { //if there is not a name for user but there is a username...
+            document.write(`
+                <h3 align="center">Hello, <font color="green">${theUsername}</font>! Please review your shopping cart order below</h3>
+                <h6 align="center">Not ${theUsername}? Please log in <a href="login.html" >here</a></h6><br />
+            `)
+        } else { //if not a cookie for user, prompt to log in
+            document.write(`
+                <h3 align="center">You are not logged in: Click <a href="login.html">here</a> to log in</h3>
+            `)
+        };
+    </script>
+
+    <!-- Table template taken from Invoice1_1 as displayed in the Assignment 1 directions page -->
+    <table align="center">
+
+        <tbody align="center">
+
+            <tr>
+                <!-- This row contains the column headers-->
+                <th style="text-align: center;" width="43%">
+                    <h3>Product</h3>
+                </th>
+
+                <th style="text-align: center;" width="11%">
+                    <h3>quantity</h3>
+                </th>
+
+                <th style="text-align: center;" width="54%">
+                    <h3>price</h3>
+                </th>
+
+                <th style="text-align: center;" width="13%">
+                    <h3>extended price</h3>
+                </th>
+
+            </tr>
+
+            <script> //The script will get the information entered on the home page to input into the table
+
+                subtotal = 0; //subtotal starts off as 0
+                for (product in allProducts) {
+                    for (i = 0; i < allProducts[product].length; i++) {
+
+                        qty = cart.getItem(`${product}${i}`);
+                        if (qty > 0) { //if there is a quantity entered in the textbox ...
+                            extended_price = qty * allProducts[product][i].price //equation for extended price
+                            subtotal += extended_price; //adding extended price for each tour to the subtotal
+
+                            document.write(`
+                            <tr>
+                                <td align="center" width="43%"><font color="#000000">${allProducts[product][i].name}</font></td>
+                                <td align="center" width="11%"><font color="#000000"><center>${qty}</center></font>
+                                    <input type="button" value="+1" onclick="addItem('${product}',${i});">
+                                    <input type="button" value="-1" onclick="removeItem('${product}',${i});"></td>
+                                <td align="center" width="13%"><font color="#000000">\$${allProducts[product][i].price}</font></td>
+                                <td align="center" width="54%"><font color="#000000">\$${extended_price}</font></td>
+                                
+                            </tr>
+                        `);
+                        }
+                    };
+                }
+
+            </script>
+
+            <tr>
+                <!-- 
+                    Creates row of space with "clear all" button
+                    Code for clear all button taken from smashingmagazine.com
+                -->
+                <td align="center" colspan="4" width="100%"><input type="button" value="Clear All"
+                        onclick="cart.clear(); window.location.reload();">
+                </td>
+
+            </tr>
+
+            <tr>
+                <!-- Sub-total row -->
+                <td style="text-align: center;" colspan="3" width="67%">
+                    <h3 style=color:tomato>Total</h3>
+                </td>
+
+                <td align="center" width="54%"><strong style=color:tomato>$
+                        <script>document.write(subtotal);</script></strong> <!-- input calculated subtotal amount -->
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+<!-- 
+        Purchase button that will redirect to invoice
+        The following purchase button was copied from Lexy Dennis' Assignment 1 index.html page
+    -->
+<ul class="actions" align="center">
+    <li>
+        <input type="submit" value='Purchase' class="button big" name="purchase_submit_button" onclick="checkCart()">
+        <input type="submit" value='Continue Shopping' class="button big" onclick="GoBackWithRefresh()">
+    </li>
+</ul>
+
+</html>
