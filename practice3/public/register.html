@@ -1,0 +1,133 @@
+<!-- 
+    Lexy Dennis' Assignment 2 Registration Page
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link href="./assets/css/main.css" rel="stylesheet"> <!-- Link CSS stylesheet -->
+
+</head>
+
+<body>
+
+    <!-- Ask user to log in -->
+    <center>
+
+        <h1>Register an account with us!</h1>
+
+        <!-- Link to login page if user already has an account -->
+        <!-- Copied onclick code from stackoverflow.com to transfer current query string when linking to the login page -->
+        <h4 style="color:grey;">Already have an account? <br /> Click <a
+                onclick="window.location='./login.html'+window.location.search;">here</a> to be taken to the login page
+        </h4>
+
+
+    </center>
+
+    <!-- The following form is taken from Lab14 exercise 4
+    Added Spans to insert error messages-->
+    <form name="registration_form" action="javascript:register_user();" method="GET">
+
+        <input type="text" name="username" size="40" placeholder="Enter Username">
+        <span id="username_message"></span>
+        <input type="text" name="name" size="40" placeholder="Enter Name">
+        <span id="name_message"></span>
+        <input type="password" name="password" size="40" placeholder="Enter Password">
+        <span id="password_message"></span>
+        <input type="password" name="repeat_password" size="40" placeholder="Confirm Password">
+        <span id="repeat_password_message"></span>
+        <input type="email" name="email" size="40" placeholder="Enter Email">
+        <span id="email_message"></span><br />
+        <center><input type="submit" value="Register" id="submit" name="register_button"></center>
+
+    </form>
+
+    <script>
+        //this function was taken from w3schools.com
+        function setCookie(cname, cvalue, exdays) { //set cookie with name, value, and expiration
+            var d = new Date(); //today's date
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is one day after login
+            var expires = "expires=" + d.toUTCString(); //put in string
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //put into local cookie
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
+
+        //taken from stackoverflow.com
+        function GoBackWithRefresh(event) { //function to go to previous page
+            var past = document.referrer;
+            var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+
+            if (pastPage != 'login.html' && pastPage != 'register.html') { //if the past page is the login, registration, or cart...
+                window.location = past;
+            } else if (pastPage == 'login.html' && pastPage == 'register.html') {
+                window.history.go(-2); //go back 2 pages instead of to that last page
+            } else {
+                window.location.href = './index.html'; //otherwise go to home page
+            }
+        };
+
+        //Taken from Assignment1_1Microservice example
+        function register_user() { //function to validate the form on the server and return errors (if any) to the browser without leaving the page
+            data = new URLSearchParams(new FormData(registration_form)); // 'data' is set to the registration_form data string
+
+            fetch('/register_user', //fetch the response from app.post for register_user from the server
+                {
+                    method: 'post',
+                    body: data,
+                    redirect: 'follow'
+                }
+            ).then(function (response) { //after fetch comes back from the server, execute function
+
+                if (response.ok) { //if the response is ok...
+
+                    response.json().then(function (errors) { //then make the response 'errors' a json object
+
+                        if (Object.keys(errors).length == 0) { //if no errors...
+                            sessionStorage.clear(); //reset session
+                            var theDate = JSON.stringify(Date()); //sets the time of login
+                            var username = registration_form.username;
+                            var userEmail = registration_form.email;
+                            var user_name = registration_form.name;
+                            setCookie('last_login_time', JSON.parse(theDate),'username', username, 'email', userEmail, 'name', user_name); //remember this login time in session
+                            response.redirect(GoBackWithRefresh()); //redirect to last-visited page
+                        } else {
+
+                            for (errorId in errors) { // if there are errors associated with the error message span...
+                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; //write those errors to the appropriate span
+                            }
+
+                        }
+
+                    });
+
+                }
+
+                else {
+                    console.log('Network request for /register_user failed with response ' + response.status + ': ' + response.statusText); //notify me in the console if the request didn't go through
+                }
+
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

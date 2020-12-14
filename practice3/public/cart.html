@@ -1,0 +1,290 @@
+<!--
+    Copied from Lexy Dennis' Assignment 1: Invoice page
+    Lexy Dennis' Assignment 2 Invoice page
+-->
+
+<script src="./products.js" type="text/javascript"></script>
+<!-- uses get request for the data in products.js -->
+
+<script>
+
+    var cart = sessionStorage; //sets 'cart' to the local session
+    var quantities = []; //create empty variable 'quantities'
+
+    if (cart.length == 0) { //if cart is not empty...
+        history.go(-1); // if there is nothing entered in any of the textboxes, send the user back to the page they were at previously to select tour amounts
+        alert('Shopping Cart is Empty! Please Select Tour Amounts'); //notice to renter tour amounts
+    };
+
+    //function taken from w3 schools
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+        var ca = decodedCookie.split(';'); //split up string by ';'
+        for (var i = 0; i < ca.length; i++) { //split up by names
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    };
+
+    function addItem(theProduct, theIndex) { //function to increase that row's tour amount by 1
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); //parse it
+        thisRowQty += 1; //add 1 to number
+        sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //set the new value to session
+        window.location.reload(); //reload page to show changes in cart
+    };
+
+    function removeItem(theProduct, theIndex) { //function to decrease that row's tour amount by 1
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); //parse it
+        if (thisRowQty > 0) { //if it is greater than 0, enable subtract to avoid neg values
+            thisRowQty -= 1; //subtract 1
+            sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //add new value to session
+            window.location.reload(); //reload page to show changes
+        }
+
+    };
+
+    //taken from stackoverflow.com
+    function GoBackWithRefresh(event) { //function to go to previous page
+        var past = document.referrer;
+        var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+
+        if (pastPage != 'login.html' && pastPage != 'register.html' && pastPage != 'cart.html') { //if the past page is the login, registration, or cart...
+            window.location = past;
+        } else if (pastPage == 'login.html' && pastPage == 'register.html' && pastPage == 'cart.html') {
+            window.history.go(-2); //go back 2 pages instead of to that last page
+        } else {
+            window.location.href = './index.html'; //otherwise go to home page
+        }
+    };
+
+    function checkCart() {
+        if (cart.length == 0) {
+            window.location.reload();
+        } else if (theUsername == '') {
+            alert(`Please log in before viewing cart`);
+            window.location.href = './login.html';
+        } else {
+            fetch("/generateInvoice?cartData="+JSON.stringify(cart)+"&cookieData="+JSON.stringify(document.cookie), 
+            {
+                method: "POST"
+            }).then(function (res) {
+                return res.text();
+            }).then(function (data) {
+                document.write(data);
+            }) 
+        }
+    }
+
+</script>
+
+<!-- Copied from order_page_Ex4.html in Lab13 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+
+<header align="center">
+    <!-- Center header on page -->
+    <h1 style=color:tomato>Shopping Cart</h1>
+    <hr /> <!-- Title of page -->
+</header>
+
+<body>
+
+    <script> // Above the invoice, thank the user personally by his/her name
+        var theUser = getCookie('name'); //theUser is the cookie for user's name
+        var theUsername = getCookie('username'); //sets variable for username in cookie
+        if (theUsername != '') { //if there is not a name for user but there is a username...
+            document.write(`
+                <h3 align="center">Hello, <font color="green">${theUsername}</font>! Please review your shopping cart order below</h3>
+                <h6 align="center">Not ${theUsername}? Please log in <a href="login.html" >here</a></h6><br />
+            `)
+        } else { //if not a cookie for user, prompt to log in
+            document.write(`
+                <h3 align="center">You are not logged in: Click <a href="login.html">here</a> to log in</h3>
+            `)
+        };
+    </script>
+
+    <!-- Table template taken from Invoice1_1 as displayed in the Assignment 1 directions page -->
+    <div class="row">
+        <div class="col-25">
+          <div class="container">
+            <!--start of invoice table--> 
+      <table>
+        <tbody>
+            <tr>
+                <th style="text-align: left;" width="40%">Product</th>
+                <th width="20%">Quantity</th>
+                <th width="20%">Price</th>
+                <th width="20%">Extended Price</th>
+              </tr>
+
+            <script> //The script will get the information entered on the home page to input into the table
+
+                subtotal = 0; //subtotal starts off as 0
+                for (product in allProducts) {
+                    for (i = 0; i < allProducts[product].length; i++) {
+
+                        qty = cart.getItem(`${product}${i}`);
+                        if (qty > 0) { //if there is a quantity entered in the textbox ...
+                            extended_price = qty * allProducts[product][i].price //equation for extended price
+                            subtotal += extended_price; //adding extended price for each tour to the subtotal
+                            var tax_rate = 0.0471;
+                            var tax = tax_rate * subtotal; //compute tax information
+                            // Compute shipping
+                            if (subtotal <= 50) {
+                                shipping = 2;
+                            }
+                            else if (subtotal <= 100) {
+                                shipping = 5;
+                            }
+                            else {
+                                shipping = 0.05 * subtotal; // 5% of subtotal
+                            }
+                            // Compute grand total
+                            var total = subtotal + tax + shipping;
+
+                            document.write(`
+                            <tr>
+                                <td style= "text-align: left" width="40%">${allProducts[product][i].name}</td>
+                                <td width="20%">${qty}
+                                    <input type="button" value="+1" onclick="addItem('${product}',${i});">
+                                    <input type="button" value="-1" onclick="removeItem('${product}',${i});"></td>
+                                <td width="20%">\$${allProducts[product][i].price}</td>
+                                <td  width="20%">\$${extended_price}</td>
+                            </tr>
+                        `);
+                        }
+                    };
+                }
+
+            </script>
+
+            <tr>
+                <!-- 
+                    Creates row of space with "clear all" button
+                    Code for clear all button taken from smashingmagazine.com
+                -->
+                <td align="center" colspan="4" width="100%"><input type="button" value="Clear All"
+                        onclick="cart.clear(); window.location.reload();">
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="4" width="100%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="3" width="67%">Sub-total</td>
+                <td width="54%">$<script>document.write(subtotal.toFixed(2));</script></td>
+              </tr>
+              <tr>
+                <td  colspan="3" width="67%"><span>Tax at <script>document.write(100*tax_rate);</script>%</span></td>
+                <td width="54%">$<script>document.write(tax.toFixed(2));</script></td>
+              </tr>
+              <tr>
+                  <td  colspan="3" width="67%">Shipping</span></td>
+                  <td width="54%">$<script>document.write(shipping.toFixed(2));</script></td>
+                </tr>
+              <tr>
+                <td colspan="3" width="67%"><strong>Total</strong></td>
+                <td width="54%"><strong>$<script>document.write(total.toFixed(2));</script></strong></td>
+              </tr>
+              <tr>
+                <td style="text-align: center;" colspan="4"> <strong>OUR SHIPPING POLICY IS: A subtotal $0 - $49.99 will be $2 shipping
+                  A subtotal $50 - $99.99 will be $5 shipping
+                  Subtotals over $100 will be charged 5% of the subtotal amount</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+      </div> 
+      <!--Using Checkout Form Template from w3schools.com-->
+      <div class="col-75">
+        <div class="container">
+          <form name="complete_purchase" action="./complete_purchase.html" method="GET">
+            <div class="row">
+              <div class="col-50">
+                <h3>Billing Address</h3>
+                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                <input type="text" id="email" name="email" placeholder="john@example.com">
+                <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+                <label for="city"><i class="fa fa-institution"></i> City</label>
+                <input type="text" id="city" name="city" placeholder="New York">
+    
+                <div class="row">
+                  <div class="col-50">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state" placeholder="NY">
+                  </div>
+                  <div class="col-50">
+                    <label for="zip">Zip</label>
+                    <input type="text" id="zip" name="zip" placeholder="10001">
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-50">
+                <h3>Payment</h3>
+                <label for="fname">Accepted Cards</label>
+                <div class="icon-container">
+                  <i class="fa fa-cc-visa" style="color:navy;"></i>
+                  <i class="fa fa-cc-amex" style="color:blue;"></i>
+                  <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                  <i class="fa fa-cc-discover" style="color:orange;"></i>
+                </div>
+                <label for="cname">Name on Card</label>
+                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                <label for="ccnum">Credit card number</label>
+                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                <label for="expmonth">Exp Month</label>
+                <input type="text" id="expmonth" name="expmonth" placeholder="September">
+    
+                <div class="row">
+                  <div class="col-50">
+                    <label for="expyear">Exp Year</label>
+                    <input type="text" id="expyear" name="expyear" placeholder="2018">
+                  </div>
+                  <div class="col-50">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="352">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <label>
+              <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+            </label>
+          </form>
+        </div>
+      </div>
+</body>
+
+<!-- 
+        Purchase button that will redirect to invoice
+        The following purchase button was copied from Lexy Dennis' Assignment 1 index.html page
+    -->
+<ul class="actions" align="center">
+    <li>
+        <input type="submit" value='Purchase' class="btn" name="purchase_submit_button" onclick="checkCart()">
+        <input type="submit" value='Continue Shopping' class="button big" onclick="GoBackWithRefresh()">
+    </li>
+</ul>
+
+</html>

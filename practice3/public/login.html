@@ -1,0 +1,116 @@
+<!--
+    Lexy Dennis' Assignment 2 Login Page
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="./assets/css/main.css" rel="stylesheet"> <!-- Link CSS stylesheet -->
+</head>
+
+<body>
+    <!-- Ask user to log in -->
+    <center>
+        <h1>Have an account?<br />Log in below</h1>
+        <!-- Link to registration page if new user -->
+        <h4 style="color:grey;">New user? Please register <a
+                onclick="window.location='./register.html'+window.location.search;">here</a></h4>
+        <!-- Copied onclick code from stackoverflow.com to transfer current query string when linking to the registration page -->
+    </center>
+
+    <!-- Log in form taken from Lab14 exercise 3-->
+    <form name="login_form" action="javascript:login_user();" method="GET">
+
+        <input type="text" name="username" size="40" placeholder="Enter Username">
+        <span id="username_message"></span>
+        <input type="password" name="password" size="40" placeholder="Enter Password">
+        <span id="password_message"></span><br />
+        <center><input type="submit" value="Log In" name="submit"></center>
+
+    </form>
+
+    <script>
+        //this function was taken from w3schools.com
+        function setCookie(cname, cvalue, exdays) { //set cookie with name, value, and expiration
+            var d = new Date(); //today's date
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is one day after login
+            var expires = "expires=" + d.toUTCString(); //put in string
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //put into local cookie
+        }
+        //function taken from stackoverflow.com
+        function deleteAllCookies() {
+            var cookies = document.cookie.split(";"); //divide cookies by keys and values with ;
+
+            for (var i = 0; i < cookies.length; i++) { //for each cookie...
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("="); //eqPos = everything before '='
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie; //set name to key
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; //cookie equal to name (key)
+            }
+        }
+
+
+        //taken from stackoverflow.com
+        function GoBackWithRefresh(event) { //function to go to previous page
+            var past = document.referrer;
+            var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+
+            if (pastPage != 'login.html' && pastPage != 'register.html') { //if the past page is the login, registration, or cart...
+                window.location = past;
+            } else if (pastPage == 'login.html' && pastPage == 'register.html') {
+                window.history.go(-2); //go back 2 pages instead of to that last page
+            } else {
+                window.location.href = './index.html'; //otherwise go to home page
+            }
+
+        };
+
+        //Taken from Assignment1_1Microservice example
+        function login_user() { //function to validate the form on the server and return errors (if any) to the browser without leaving the page
+            data = new URLSearchParams(new FormData(login_form)); // 'data' is set to the login_form data string
+
+            fetch('/check_login', //fetch the response from app.post for check_login from the server
+                {
+                    method: 'post',
+                    body: data,
+                    redirect: 'follow'
+                }
+            ).then(function (response) { //after fetch comes back from the server, execute function
+
+                if (response.ok) { //if the response is ok...
+
+                    response.json().then(function (errors) { //then make the response 'errors' a json object
+
+                        if (Object.keys(errors).length == 0) { //if no errors..
+                            sessionStorage.clear(); //clear session for new users
+                            response.json({}); //give response in parsed json object
+                            var theDate = JSON.stringify(Date()); //sets the time of login
+                            setCookie('last_login_time', JSON.parse(theDate), 'username'); //remember this login time in cookie
+                            
+                            response.redirect(GoBackWithRefresh()); //redirect to the last-visited page
+                        } else {
+
+                            for (errorId in errors) { // if there are errors associated with the ID message span...
+                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; //write those errors to the appropriate span
+                            };
+
+                        };
+                    });
+
+
+                } else {
+                    console.log('Network request for /check_login failed with response ' + response.status + ': ' + response.statusText); //notify me in the console if the request didn't go through
+                }
+
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>`

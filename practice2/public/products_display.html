@@ -1,0 +1,58 @@
+<!--Alyssa Mencel's Product Display Page-->
+<script src="./products.js" type="text/javascript">
+    //links it to products array 
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Outfitter's Products</title> <!--Name seen on top of page-->
+    <link rel="stylesheet" href="./stylesheets/navbar.css">
+    <link rel="stylesheet" href="./stylesheets/products-style.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Oswald">
+    <style>
+        body {
+        text-align: center;
+        font-family: 'Oswald', 'Sans';
+        color: lightseagreen;
+        }
+    </style>
+</head>
+<body>
+    <!--creates the navigation bar-->
+    <ul>
+        <li style="float:left"><a href="./index.html">Sustainable Outfitters</a></li>
+        <li><a href="./cart.html">Shopping Cart</a></li>
+        <li class="dropdown"><a class="dropbtn" class= "active" href="./products_display.html">Products</a>
+            <div class="dropdown-content">
+                <a href="bath.html">Bath</a>
+                <a href="home.html">Home</a>
+                <a href="kitchen.html">Kitchen</a>
+                <a href="kits.html">Kits</a>
+                <a href="extra.html">Extra</a>
+              </div>
+        </li>
+        <li><a href="./login.html">Login</a></li>
+        <li><a href="./register.html">Register</a></li>
+      </ul>
+      <!--creates the product display page with product name, image, price and section for quantity-->
+    <form name="product_main_display" action="/process_cart" method="POST">
+        <body> 
+            <img src="./images/beach.jpg" height=100% width=100%>
+        <style>
+            body {
+                text-align: center;
+                background: "./images/beach.jpg";
+            }
+        </style>
+        <h1>
+            Please shop with us and support sustainability!
+        </h1>
+        </body>
+        <footer>
+        </footer>
+    </form>
+</body>
+</html>
