@@ -1,27 +1,28 @@
 <!--
-    Copied from Lexy Dennis' Assignment 1: Invoice page
-    Lexy Dennis' Assignment 2 Invoice page
+    Alyssa Mencel's Assignment 3 cart
+    made with help from assignment 2 and 1 invoice.html 
+    made with template help from templated.co @templatedco
 -->
-
+<!--loading in the products.js file-->
 <script src="./products.js" type="text/javascript"></script>
-<!-- uses get request for the data in products.js -->
 
 <script>
 
-    var cart = sessionStorage; //sets 'cart' to the local session
-    var quantities = []; //create empty variable 'quantities'
+    var cart = sessionStorage; //setting variable cart 
+    var quantities = []; //setting a quantity variable 
 
-    if (cart.length == 0) { //if cart is not empty...
-        history.go(-1); // if there is nothing entered in any of the textboxes, send the user back to the page they were at previously to select tour amounts
-        alert('Shopping Cart is Empty! Please Select Tour Amounts'); //notice to renter tour amounts
+    //if cart has information 
+    if (cart.length == 0) { 
+        history.go(-1); // goes back to previous page if empty 
+        alert('Shopping Cart is Empty! Please Select Products'); 
     };
 
-    //function taken from w3 schools
+    //function made with help from w3school.com 
     function getCookie(cname) {
         var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
-        var ca = decodedCookie.split(';'); //split up string by ';'
-        for (var i = 0; i < ca.length; i++) { //split up by names
+        var decodedCookie = decodeURIComponent(document.cookie); //decodes cookie
+        var ca = decodedCookie.split(';'); 
+        for (var i = 0; i < ca.length; i++) { 
             var c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -32,38 +33,38 @@
         }
         return "";
     };
-
-    function addItem(theProduct, theIndex) { //function to increase that row's tour amount by 1
-        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); //parse it
-        thisRowQty += 1; //add 1 to number
-        sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //set the new value to session
-        window.location.reload(); //reload page to show changes in cart
+    //function to change product amount by positive 1 in cart 
+    function addItem(theProduct, theIndex) { 
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); 
+        thisRowQty += 1; //adds 1
+        sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //gives the new value to the session 
+        window.location.reload(); //reloads the page 
     };
-
-    function removeItem(theProduct, theIndex) { //function to decrease that row's tour amount by 1
-        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); //parse it
-        if (thisRowQty > 0) { //if it is greater than 0, enable subtract to avoid neg values
+    //function to change product amount by negative 1 in cart 
+    function removeItem(theProduct, theIndex) { 
+        var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`)); 
+        if (thisRowQty > 0) { 
             thisRowQty -= 1; //subtract 1
-            sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //add new value to session
-            window.location.reload(); //reload page to show changes
+            sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); //gives the session the new value 
+            window.location.reload(); //reloads the page 
         }
 
     };
 
-    //taken from stackoverflow.com
-    function GoBackWithRefresh(event) { //function to go to previous page
+    //made with help from stackoverflow.com 
+    function GoBackWithRefresh(event) { //takes you back to previous page
         var past = document.referrer;
-        var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+        var pastPage = past.split('/').pop(); 
 
-        if (pastPage != 'login.html' && pastPage != 'register.html' && pastPage != 'cart.html') { //if the past page is the login, registration, or cart...
+        if (pastPage != 'login.html' && pastPage != 'register.html' && pastPage != 'cart.html') { 
             window.location = past;
         } else if (pastPage == 'login.html' && pastPage == 'register.html' && pastPage == 'cart.html') {
-            window.history.go(-2); //go back 2 pages instead of to that last page
+            window.history.go(-2); //go back 2 pages instead of to that last page if it was login, cart or register
         } else {
-            window.location.href = './index.html'; //otherwise go to home page
+            window.location.href = './index.html'; //takes you to home page
         }
     };
-
+//insures that teh cart has proper data and that the user is logged in 
     function checkCart() {
         if (cart.length == 0) {
             window.location.reload();
@@ -84,7 +85,7 @@
 
 </script>
 
-<!-- Copied from order_page_Ex4.html in Lab13 -->
+<!-- Made with help from Order Page Ex4-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,7 +93,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
-   <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+   <!--uses the necessary css files and js files from template-->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
@@ -128,15 +129,15 @@
     </header>
   <section id="banner">
     <div class="inner">
-    <script> // Above the invoice, thank the user personally by his/her name
-        var theUser = getCookie('name'); //theUser is the cookie for user's name
-        var theUsername = getCookie('username'); //sets variable for username in cookie
-        if (theUsername != '') { //if there is not a name for user but there is a username...
+    <script> // thanks the user by nam 
+        var theUser = getCookie('name'); 
+        var theUsername = getCookie('username'); 
+        if (theUsername != '') { //if no name because it is not required uses the username 
             document.write(`
                 <p align="center">Hello, ${theUsername}! Please review your shopping cart order below</p>
                 <p align="center">Not ${theUsername}? Please log in <a href="login.html" >here</a></p><br />
             `)
-        } else { //if not a cookie for user, prompt to log in
+        } else { //if there is no cookie it tells to login 
             document.write(`
                 <p align="center">You are not logged in: Click <a href="login.html">here</a> to log in</p>
             `)
@@ -145,9 +146,8 @@
     </div>
     </section>
 <br>
-    <!-- Table template taken from Invoice1_1 as displayed in the Assignment 1 directions page -->
+<!--start of invoice table--> 
     <section id="one" class="wrapper style1">
-            <!--start of invoice table--> 
       <table>
         <tbody>
             <tr>
@@ -156,16 +156,16 @@
                 <td width="20%"><strong>Price</strong></td>
                 <td width="20%"><strong>Extended Price</strong></td>
             </tr>
-            <script> //The script will get the information entered on the home page to input into the table
+            <script> //The script will take the info entered and put it in table 
 
                 subtotal = 0; //subtotal starts off as 0
                 for (product in allProducts) {
                     for (i = 0; i < allProducts[product].length; i++) {
 
                         qty = cart.getItem(`${product}${i}`);
-                        if (qty > 0) { //if there is a quantity entered in the textbox ...
-                            extended_price = qty * allProducts[product][i].price //equation for extended price
-                            subtotal += extended_price; //adding extended price for each tour to the subtota
+                        if (qty > 0) { //there has to be at least one quantity entered
+                            extended_price = qty * allProducts[product][i].price 
+                            subtotal += extended_price; 
 
                             document.write(`
                             <tr>
@@ -200,7 +200,7 @@
             <tr>
                 <!-- 
                     Creates row of space with "clear all" button
-                    Code for clear all button taken from smashingmagazine.com
+                    Code for clear all made with help from smashmagazine.com 
                 -->
                 <td align="center" colspan="4" width="100%"><input type="button" class="button special" value="Clear All"
                         onclick="cart.clear(); window.location.reload();">
@@ -236,14 +236,11 @@
         </tbody>
           </table> 
         </section>
-        <!-- 
-Purchase button that will redirect to invoice
-The following purchase button was copied from Lexy Dennis' Assignment 1 index.html page
--->
+        <!-- Purchase button that will redirect to invoice or one can continue shopping and it goes back-->
 <section>
     <div class= end>
-<input type="submit" value='Purchase' class="button big special" name="purchase_submit_button" onclick="checkCart()">
-<input type="submit" value='Continue Shopping' class="button big special" onclick="GoBackWithRefresh()">
+        <input type="submit" value='Continue Shopping' class="button big special" onclick="GoBackWithRefresh()">
+        <input type="submit" value='Purchase' class="button big special" name="purchase_submit_button" onclick="checkCart()">
 </div>
 </section>
 </html>

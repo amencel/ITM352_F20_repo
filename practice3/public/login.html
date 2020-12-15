@@ -1,5 +1,6 @@
 <!--
     Alyssa Mencel's Assignment 3 Login Page 
+    made with template help from templated.co @templatedco
 -->
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+    <!--loading in necessary js and css files from template-->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
@@ -44,7 +45,6 @@
                 </ul>
             </nav>
         </header>
-    <!-- Ask user to log in -->
     <!-- Banner -->
     <section id="banner">
         <div class="inner">
@@ -57,7 +57,7 @@
     </section>
 <br>
 <div id=login>
-    <!-- Log in form taken from Lab14 exercise 3-->
+    <!-- this is the login form made with help from lab 14-->
     <form name="login_form" action="javascript:login_user();" method="GET">
 
         <center><input type="text" name="username" size="40" placeholder="Enter Username">
@@ -70,68 +70,68 @@
 </div>
 
     <script>
-        //this function was taken from w3schools.com
-        function setCookie(cname, cvalue, exdays) { //set cookie with name, value, and expiration
+        //made with help from w3schools.com
+        function setCookie(cname, cvalue, exdays) { //sets cookie
             var d = new Date(); //today's date
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is one day after login
-            var expires = "expires=" + d.toUTCString(); //put in string
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //put into local cookie
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is set to a day after inital login
+            var expires = "expires=" + d.toUTCString(); 
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; 
         }
-        //function taken from stackoverflow.com
+        //mafe with help from from stackoverflow.com
         function deleteAllCookies() {
-            var cookies = document.cookie.split(";"); //divide cookies by keys and values with ;
+            var cookies = document.cookie.split(";"); 
 
-            for (var i = 0; i < cookies.length; i++) { //for each cookie...
+            for (var i = 0; i < cookies.length; i++) { 
                 var cookie = cookies[i];
-                var eqPos = cookie.indexOf("="); //eqPos = everything before '='
-                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie; //set name to key
-                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; //cookie equal to name (key)
+                var eqPos = cookie.indexOf("="); 
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie; 
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; 
             }
         }
 
 
-        //taken from stackoverflow.com
-        function GoBackWithRefresh(event) { //function to go to previous page
+        //made with help from stackoverflow.com, allows one to return to previous page after login 
+        function GoBackWithRefresh(event) { 
             var past = document.referrer;
-            var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+            var pastPage = past.split('/').pop(); 
 
-            if (pastPage != 'login.html' && pastPage != 'register.html') { //if the past page is the login, registration, or cart...
+            if (pastPage != 'login.html' && pastPage != 'register.html') { 
                 window.location = past;
             } else if (pastPage == 'login.html' && pastPage == 'register.html') {
-                window.history.go(-2); //go back 2 pages instead of to that last page
+                window.history.go(-2); 
             } else {
-                window.location.href = './index.html'; //otherwise go to home page
+                window.location.href = './index.html'; 
             }
 
         };
 
-        //Taken from Assignment1_1Microservice example
-        function login_user() { //function to validate the form on the server and return errors (if any) to the browser without leaving the page
-            data = new URLSearchParams(new FormData(login_form)); // 'data' is set to the login_form data string
+        //Made with help from microservice example 
+        function login_user() { //function to validate on server
+            data = new URLSearchParams(new FormData(login_form)); //variable is set 
 
-            fetch('/check_login', //fetch the response from app.post for check_login from the server
+            fetch('/check_login', 
                 {
                     method: 'post',
                     body: data,
                     redirect: 'follow'
                 }
-            ).then(function (response) { //after fetch comes back from the server, execute function
+            ).then(function (response) { 
 
-                if (response.ok) { //if the response is ok...
+                if (response.ok) { 
 
-                    response.json().then(function (errors) { //then make the response 'errors' a json object
+                    response.json().then(function (errors) { 
 
-                        if (Object.keys(errors).length == 0) { //if no errors..
-                            sessionStorage.clear(); //clear session for new users
-                            response.json({}); //give response in parsed json object
+                        if (Object.keys(errors).length == 0) { 
+                            sessionStorage.clear(); //clears session for new users 
+                            response.json({}); 
                             var theDate = JSON.stringify(Date()); //sets the time of login
-                            setCookie('last_login_time', JSON.parse(theDate), 'username'); //remember this login time in cookie
+                            setCookie('last_login_time', JSON.parse(theDate), 'username'); //cookies remember login 
                             
-                            response.redirect(GoBackWithRefresh()); //redirect to the last-visited page
+                            response.redirect(GoBackWithRefresh()); // redirects page
                         } else {
 
-                            for (errorId in errors) { // if there are errors associated with the ID message span...
-                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; //write those errors to the appropriate span
+                            for (errorId in errors) { 
+                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; 
                             };
 
                         };
@@ -139,7 +139,7 @@
 
 
                 } else {
-                    console.log('Network request for /check_login failed with response ' + response.status + ': ' + response.statusText); //notify me in the console if the request didn't go through
+                    console.log('Network request for /check_login failed with response ' + response.status + ': ' + response.statusText); 
                 }
 
             });

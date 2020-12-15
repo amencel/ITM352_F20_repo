@@ -1,5 +1,6 @@
 <!-- 
-    Lexy Dennis' Assignment 2 Registration Page
+   Alyssa Mencel's Assignment 3 registration page
+   made with template help from templated.co @templatedco
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
-    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+    <!--loads in css and js files from template-->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
@@ -56,8 +57,7 @@
         </div>
     </section>
 
-    <!-- The following form is taken from Lab14 exercise 4
-    Added Spans to insert error messages-->
+    <!-- Made with help from lab14 exercise 4-->
     <form name="registration_form" action="javascript:register_user();" method="GET">
         <br>
         <center>
@@ -77,12 +77,12 @@
     </form>
 
     <script>
-        //this function was taken from w3schools.com
-        function setCookie(cname, cvalue, exdays) { //set cookie with name, value, and expiration
+        //made with help from w3schools.com
+        function setCookie(cname, cvalue, exdays) { //sets cookie
             var d = new Date(); //today's date
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is one day after login
-            var expires = "expires=" + d.toUTCString(); //put in string
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //put into local cookie
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //expiration is set to a day after inital login
+            var expires = "expires=" + d.toUTCString(); 
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; 
         }
         function getCookie(name) {
             var nameEQ = name + "=";
@@ -98,48 +98,49 @@
             document.cookie = name + '=; Max-Age=-99999999;';
         }
 
-        //taken from stackoverflow.com
-        function GoBackWithRefresh(event) { //function to go to previous page
+        //made with help from stackoverflow.com, allows one to return to previous page after login 
+        function GoBackWithRefresh(event) { 
             var past = document.referrer;
-            var pastPage = past.split('/').pop(); //get value of string after '/' in past page query string
+            var pastPage = past.split('/').pop(); 
 
-            if (pastPage != 'login.html' && pastPage != 'register.html') { //if the past page is the login, registration, or cart...
+            if (pastPage != 'login.html' && pastPage != 'register.html') { 
                 window.location = past;
             } else if (pastPage == 'login.html' && pastPage == 'register.html') {
-                window.history.go(-2); //go back 2 pages instead of to that last page
+                window.history.go(-2); 
             } else {
-                window.location.href = './index.html'; //otherwise go to home page
+                window.location.href = './index.html'; 
             }
+
         };
 
-        //Taken from Assignment1_1Microservice example
-        function register_user() { //function to validate the form on the server and return errors (if any) to the browser without leaving the page
-            data = new URLSearchParams(new FormData(registration_form)); // 'data' is set to the registration_form data string
+        //Made with help from microservice example 
+        function register_user() { //validates on the server 
+            data = new URLSearchParams(new FormData(registration_form)); // sets variable 
 
-            fetch('/register_user', //fetch the response from app.post for register_user from the server
+            fetch('/register_user', //gets response from app post
                 {
                     method: 'post',
                     body: data,
                     redirect: 'follow'
                 }
-            ).then(function (response) { //after fetch comes back from the server, execute function
+            ).then(function (response) { 
 
-                if (response.ok) { //if the response is ok...
+                if (response.ok) { 
 
-                    response.json().then(function (errors) { //then make the response 'errors' a json object
+                    response.json().then(function (errors) { 
 
-                        if (Object.keys(errors).length == 0) { //if no errors...
-                            sessionStorage.clear(); //reset session
-                            var theDate = JSON.stringify(Date()); //sets the time of login
+                        if (Object.keys(errors).length == 0) { 
+                            sessionStorage.clear(); //resets the session
+                            var theDate = JSON.stringify(Date()); //has time of login
                             var username = registration_form.username;
                             var userEmail = registration_form.email;
                             var user_name = registration_form.name;
-                            setCookie('last_login_time', JSON.parse(theDate),'username', username, 'email', userEmail, 'name', user_name); //remember this login time in session
-                            response.redirect(GoBackWithRefresh()); //redirect to last-visited page
+                            setCookie('last_login_time', JSON.parse(theDate),'username', username, 'email', userEmail, 'name', user_name); 
+                            response.redirect(GoBackWithRefresh()); 
                         } else {
 
-                            for (errorId in errors) { // if there are errors associated with the error message span...
-                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; //write those errors to the appropriate span
+                            for (errorId in errors) { 
+                                document.getElementById(errorId + '_message').innerHTML = errors[errorId]; 
                             }
 
                         }
@@ -149,7 +150,7 @@
                 }
 
                 else {
-                    console.log('Network request for /register_user failed with response ' + response.status + ': ' + response.statusText); //notify me in the console if the request didn't go through
+                    console.log('Network request for /register_user failed with response ' + response.status + ': ' + response.statusText); 
                 }
 
             });
