@@ -78,7 +78,7 @@
                 return res.text();
             }).then(function (data) {
                 document.write(data);
-            }) 
+            })
         }
     }
 
@@ -92,45 +92,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+   <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/style-xlarge.css" />
 </head>
+<body id="top">
 
-<header align="center">
-    <!-- Center header on page -->
-    <h1 style=color:tomato>Shopping Cart</h1>
-    <hr /> <!-- Title of page -->
-</header>
-
-<body>
-
+    <!-- Header -->
+    <header id="header" class="skel-layers-fixed">
+        <h1><a href="index.html">Sustainable Outfitters</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li><a href="./register.html">Register</a></li>
+                <li><div class="dropdown">
+                    <a class="dropbtn" href="./products_display.html">Products</a>
+                    <div class="dropdown-content">
+                        <a href="bath.html">Bath</a> <br>
+                        <a href="home.html">Home</a> <br>
+                        <a href="kitchen.html">Kitchen</a> <br>
+                        <a href="kits.html">Kits</a> <br>
+                        <a href="extra.html">Extra</a>
+                    </div>
+                  </div>
+                </li>
+                <li><a href="./cart.html">Shopping Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+  <section id="banner">
+    <div class="inner">
     <script> // Above the invoice, thank the user personally by his/her name
         var theUser = getCookie('name'); //theUser is the cookie for user's name
         var theUsername = getCookie('username'); //sets variable for username in cookie
         if (theUsername != '') { //if there is not a name for user but there is a username...
             document.write(`
-                <h3 align="center">Hello, <font color="green">${theUsername}</font>! Please review your shopping cart order below</h3>
-                <h6 align="center">Not ${theUsername}? Please log in <a href="login.html" >here</a></h6><br />
+                <p align="center">Hello, ${theUsername}! Please review your shopping cart order below</p>
+                <p align="center">Not ${theUsername}? Please log in <a href="login.html" >here</a></p><br />
             `)
         } else { //if not a cookie for user, prompt to log in
             document.write(`
-                <h3 align="center">You are not logged in: Click <a href="login.html">here</a> to log in</h3>
+                <p align="center">You are not logged in: Click <a href="login.html">here</a> to log in</p>
             `)
         };
     </script>
-
+    </div>
+    </section>
+<br>
     <!-- Table template taken from Invoice1_1 as displayed in the Assignment 1 directions page -->
-    <div class="row">
-        <div class="col-25">
-          <div class="container">
+    <section id="one" class="wrapper style1">
             <!--start of invoice table--> 
       <table>
         <tbody>
             <tr>
-                <th style="text-align: left;" width="40%">Product</th>
-                <th width="20%">Quantity</th>
-                <th width="20%">Price</th>
-                <th width="20%">Extended Price</th>
-              </tr>
-
+                <td style="text-align: left;" width="40%"><strong>Product</strong></td>
+                <td width="20%"><strong>Quantity</strong></td>
+                <td width="20%"><strong>Price</strong></td>
+                <td width="20%"><strong>Extended Price</strong></td>
+            </tr>
             <script> //The script will get the information entered on the home page to input into the table
 
                 subtotal = 0; //subtotal starts off as 0
@@ -140,28 +165,14 @@
                         qty = cart.getItem(`${product}${i}`);
                         if (qty > 0) { //if there is a quantity entered in the textbox ...
                             extended_price = qty * allProducts[product][i].price //equation for extended price
-                            subtotal += extended_price; //adding extended price for each tour to the subtotal
-                            var tax_rate = 0.0471;
-                            var tax = tax_rate * subtotal; //compute tax information
-                            // Compute shipping
-                            if (subtotal <= 50) {
-                                shipping = 2;
-                            }
-                            else if (subtotal <= 100) {
-                                shipping = 5;
-                            }
-                            else {
-                                shipping = 0.05 * subtotal; // 5% of subtotal
-                            }
-                            // Compute grand total
-                            var total = subtotal + tax + shipping;
+                            subtotal += extended_price; //adding extended price for each tour to the subtota
 
                             document.write(`
                             <tr>
                                 <td style= "text-align: left" width="40%">${allProducts[product][i].name}</td>
                                 <td width="20%">${qty}
-                                    <input type="button" value="+1" onclick="addItem('${product}',${i});">
-                                    <input type="button" value="-1" onclick="removeItem('${product}',${i});"></td>
+                                    <input type="button" class="button alt" value="+1" onclick="addItem('${product}',${i});">
+                                    <input type="button" class="button alt" value="-1" onclick="removeItem('${product}',${i});"></td>
                                 <td width="20%">\$${allProducts[product][i].price}</td>
                                 <td  width="20%">\$${extended_price}</td>
                             </tr>
@@ -169,7 +180,21 @@
                         }
                     };
                 }
-
+                //compute tax information
+                var tax_rate = 0.0471;
+                var tax = tax_rate * subtotal; 
+                // Compute shipping
+                if (subtotal <= 50) {
+                    shipping = 2;
+                    }
+                 else if (subtotal <= 100) {
+                  shipping = 5;
+                }
+                 else {
+                  shipping = 0.05 * subtotal; // 5% of subtotal
+                  }
+                // Compute grand total
+                  var total = subtotal + tax + shipping;
             </script>
 
             <tr>
@@ -177,7 +202,7 @@
                     Creates row of space with "clear all" button
                     Code for clear all button taken from smashingmagazine.com
                 -->
-                <td align="center" colspan="4" width="100%"><input type="button" value="Clear All"
+                <td align="center" colspan="4" width="100%"><input type="button" class="button special" value="Clear All"
                         onclick="cart.clear(); window.location.reload();">
                 </td>
 
@@ -207,84 +232,18 @@
                   A subtotal $50 - $99.99 will be $5 shipping
                   Subtotals over $100 will be charged 5% of the subtotal amount</strong>
                 </td>
-              </tr>
-            </tbody>
+            </tr>
+        </tbody>
           </table> 
-        </div>
-      </div> 
-      <!--Using Checkout Form Template from w3schools.com-->
-      <div class="col-75">
-        <div class="container">
-          <form name="complete_purchase" action="./complete_purchase.html" method="GET">
-            <div class="row">
-              <div class="col-50">
-                <h3>Billing Address</h3>
-                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-                <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
-                <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                <input type="text" id="email" name="email" placeholder="john@example.com">
-                <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-                <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
-                <label for="city"><i class="fa fa-institution"></i> City</label>
-                <input type="text" id="city" name="city" placeholder="New York">
-    
-                <div class="row">
-                  <div class="col-50">
-                    <label for="state">State</label>
-                    <input type="text" id="state" name="state" placeholder="NY">
-                  </div>
-                  <div class="col-50">
-                    <label for="zip">Zip</label>
-                    <input type="text" id="zip" name="zip" placeholder="10001">
-                  </div>
-                </div>
-              </div>
-    
-              <div class="col-50">
-                <h3>Payment</h3>
-                <label for="fname">Accepted Cards</label>
-                <div class="icon-container">
-                  <i class="fa fa-cc-visa" style="color:navy;"></i>
-                  <i class="fa fa-cc-amex" style="color:blue;"></i>
-                  <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                  <i class="fa fa-cc-discover" style="color:orange;"></i>
-                </div>
-                <label for="cname">Name on Card</label>
-                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-                <label for="ccnum">Credit card number</label>
-                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                <label for="expmonth">Exp Month</label>
-                <input type="text" id="expmonth" name="expmonth" placeholder="September">
-    
-                <div class="row">
-                  <div class="col-50">
-                    <label for="expyear">Exp Year</label>
-                    <input type="text" id="expyear" name="expyear" placeholder="2018">
-                  </div>
-                  <div class="col-50">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="352">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <label>
-              <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
-            </label>
-          </form>
-        </div>
-      </div>
-</body>
-
-<!-- 
-        Purchase button that will redirect to invoice
-        The following purchase button was copied from Lexy Dennis' Assignment 1 index.html page
-    -->
-<ul class="actions" align="center">
-    <li>
-        <input type="submit" value='Purchase' class="btn" name="purchase_submit_button" onclick="checkCart()">
-        <input type="submit" value='Continue Shopping' class="button big" onclick="GoBackWithRefresh()">
-    </li>
-</ul>
-
+        </section>
+        <!-- 
+Purchase button that will redirect to invoice
+The following purchase button was copied from Lexy Dennis' Assignment 1 index.html page
+-->
+<section>
+    <div class= end>
+<input type="submit" value='Purchase' class="button big special" name="purchase_submit_button" onclick="checkCart()">
+<input type="submit" value='Continue Shopping' class="button big special" onclick="GoBackWithRefresh()">
+</div>
+</section>
 </html>

@@ -9,40 +9,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
-    <link href="./assets/css/main.css" rel="stylesheet"> <!-- Link CSS stylesheet -->
-
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/stylelogin.css" />
+		<link rel="stylesheet" href="css/style-xlarge.css" />
 </head>
 
-<body>
+<body id="top">
 
+    <!-- Header -->
+        <header id="header" class="skel-layers-fixed">
+            <h1><a href="index.html">Sustainable Outfitters</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./login.html">Login</a></li>
+                    <li><a href="./register.html">Register</a></li>
+                    <li><div class="dropdown">
+                        <a class="dropbtn" href="./products_display.html">Products</a>
+                        <div class="dropdown-content">
+                            <a href="bath.html">Bath</a> <br>
+                            <a href="home.html">Home</a> <br>
+                            <a href="kitchen.html">Kitchen</a> <br>
+                            <a href="kits.html">Kits</a> <br>
+                            <a href="extra.html">Extra</a>
+                        </div>
+                      </div>
+                    </li>
+                    <li><a href="./cart.html">Shopping Cart</a></li>
+                </ul>
+            </nav>
+        </header>
     <!-- Ask user to log in -->
-    <center>
-
-        <h1>Register an account with us!</h1>
-
-        <!-- Link to login page if user already has an account -->
-        <!-- Copied onclick code from stackoverflow.com to transfer current query string when linking to the login page -->
-        <h4 style="color:grey;">Already have an account? <br /> Click <a
-                onclick="window.location='./login.html'+window.location.search;">here</a> to be taken to the login page
-        </h4>
-
-
-    </center>
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <h2>Thanks for your support!</h2>
+            <p>please create an account below</p>
+            <ul class="actions">
+                <li><a href="./login.html" class="button special">returning? login here</a></li>
+            </ul>
+        </div>
+    </section>
 
     <!-- The following form is taken from Lab14 exercise 4
     Added Spans to insert error messages-->
     <form name="registration_form" action="javascript:register_user();" method="GET">
-
+        <br>
+        <center>
+            <input type="text" name="name" size="40" placeholder="Enter Name">
+            <span id="name_message"></span>
         <input type="text" name="username" size="40" placeholder="Enter Username">
         <span id="username_message"></span>
-        <input type="text" name="name" size="40" placeholder="Enter Name">
-        <span id="name_message"></span>
+        <input type="email" name="email" size="40" placeholder="Enter Email">
+        <span id="email_message"></span>
         <input type="password" name="password" size="40" placeholder="Enter Password">
         <span id="password_message"></span>
         <input type="password" name="repeat_password" size="40" placeholder="Confirm Password">
         <span id="repeat_password_message"></span>
-        <input type="email" name="email" size="40" placeholder="Enter Email">
-        <span id="email_message"></span><br />
+        <br> </center>
         <center><input type="submit" value="Register" id="submit" name="register_button"></center>
 
     </form>

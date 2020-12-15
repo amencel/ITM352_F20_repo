@@ -1,5 +1,5 @@
 <!--
-    Lexy Dennis' Assignment 2 Login Page
+    Alyssa Mencel's Assignment 3 Login Page 
 -->
 
 <!DOCTYPE html>
@@ -9,29 +9,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link href="./assets/css/main.css" rel="stylesheet"> <!-- Link CSS stylesheet -->
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/stylelogin.css" />
+		<link rel="stylesheet" href="css/style-xlarge.css" />
 </head>
 
-<body>
-    <!-- Ask user to log in -->
-    <center>
-        <h1>Have an account?<br />Log in below</h1>
-        <!-- Link to registration page if new user -->
-        <h4 style="color:grey;">New user? Please register <a
-                onclick="window.location='./register.html'+window.location.search;">here</a></h4>
-        <!-- Copied onclick code from stackoverflow.com to transfer current query string when linking to the registration page -->
-    </center>
+<body id="top">
 
+    <!-- Header -->
+        <header id="header" class="skel-layers-fixed">
+            <h1><a href="index.html">Sustainable Outfitters</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./login.html">Login</a></li>
+                    <li><a href="./register.html">Register</a></li>
+                    <li><div class="dropdown">
+                        <a class="dropbtn" href="./products_display.html">Products</a>
+                        <div class="dropdown-content">
+                            <a href="bath.html">Bath</a> <br>
+                            <a href="home.html">Home</a> <br>
+                            <a href="kitchen.html">Kitchen</a> <br>
+                            <a href="kits.html">Kits</a> <br>
+                            <a href="extra.html">Extra</a>
+                        </div>
+                      </div>
+                    </li>
+                    <li><a href="./cart.html">Shopping Cart</a></li>
+                </ul>
+            </nav>
+        </header>
+    <!-- Ask user to log in -->
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <h2>Welcome back!</h2>
+            <p>please log in below</p>
+            <ul class="actions">
+                <li><a href="./register.html" class="button special">new? register here</a></li>
+            </ul>
+        </div>
+    </section>
+<br>
+<div id=login>
     <!-- Log in form taken from Lab14 exercise 3-->
     <form name="login_form" action="javascript:login_user();" method="GET">
 
-        <input type="text" name="username" size="40" placeholder="Enter Username">
-        <span id="username_message"></span>
-        <input type="password" name="password" size="40" placeholder="Enter Password">
-        <span id="password_message"></span><br />
+        <center><input type="text" name="username" size="40" placeholder="Enter Username">
+        <span id="username_message"></span></center>
+        <center><input type="password" name="password" size="40" placeholder="Enter Password">
+        <span id="password_message"></span><br /> </center>
         <center><input type="submit" value="Log In" name="submit"></center>
 
     </form>
+</div>
 
     <script>
         //this function was taken from w3schools.com

@@ -1,12 +1,12 @@
 {
-    "itm352": {
-      "name": "ITM 352 Grader",
-      "password": "grader",
-      "email": "grader@hawaii.edu"
-    },
-    "dennisal": {
-      "name": "Lexy",
-      "password": "286370",
-      "email": "dennisal@hawaii.edu"
-    }
+  "itm352": {
+    "name": "ITM 352 Grader",
+    "password": "grader",
+    "email": "grader@hawaii.edu"
+  },
+  "amencel": {
+    "name": "Alyssa Mencel",
+    "password": "123456",
+    "email": "amencel@hawaii.edu"
   }
+}

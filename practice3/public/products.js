@@ -1,23 +1,23 @@
 /* Alyssa's Assignment 1 array of products */
 var products_array = [
     {
-    'type': "bath products",
+    'type': "bath",
     'image': "./images/shampoo.jpg"
     },
     {
-    'type': "home products",
+    'type': "home",
     'image': "./images/bag.jpg"
     },
     {
-    'type': "kitchen products",
+    'type': "kitchen",
     'image': "./images/lid.jpg"
     },
     {
-    'type': "kit products",
+    'type': "kit",
     'image': "./images/togo.jpg"
     },
     {
-    'type': "extra products",
+    'type': "extra",
     'image': "./images/tshirt.jpg"
     }
 
@@ -89,7 +89,7 @@ var home = [
 var kitchen = [
     //kitchen product 1
     {
-    "name": "Mason Jar Silicone Straw Lid",
+    "name": "Mason Jar Straw Lid",
     "price": 5.99,
     "image": "./images/lid.jpg"
     },
