@@ -55,9 +55,9 @@
         }
 
         function saveProduct(i) { //saves the product to teh cart 
-            var tourAmount = quantity_form[`quantity_textbox${i}`].value;
-            if (isNonNegInt(tourAmount) == true) { //if it has no errrors 
-                sessionStorage[`${product}${i}`] = tourAmount; //save this product amount 
+            var amountProduct = quantity_form[`quantity_textbox${i}`].value;
+            if (isNonNegInt(amountProduct) == true) { //if it has no errrors 
+                sessionStorage[`${product}${i}`] = amountProduct; //save this product amount 
                 document.getElementById(`cart${i}`).innerHTML = 'Added to Cart!'; //tells them it was added to the cart
             } else {
                 document.getElementById(`cart${i}`).innerHTML = 'Not Added to Cart: Please Enter Valid Product Amount'; //tells them it is invalid 
