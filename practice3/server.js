@@ -256,6 +256,7 @@ function isNonNegInt(q, return_errors = false) {
 
 //Made with help from Lab 14 Exercise 3
 app.post("/check_login", function (request, response) {// Process login form from POST Request
+    errs = {}; //assume no errors at first
     var login_username = request.body["username"]; //set var login_username to the username 
     var user_info = userdata[login_username]; //sets a variable
     var login_password = request.body["password"]; //sets a variable
