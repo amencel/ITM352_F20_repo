@@ -112,7 +112,17 @@
                         </div>
                       </div>
                     </li>
-                    <li><a href="./cart.html">Shopping Cart</a></li>
+                    <li><a href="./cart.html"><script>
+                        var cart = sessionStorage.length;
+                                    if (cart > 0) {
+                                        document.write(`
+                                            <p><font color="#555f66"> Shopping Cart </font> <font color="#629DD1">(${cart})</font></p>
+                                        `)
+                                    }
+                                    else {
+                                        document.write (`<p> <font color="#555f66"> Shopping Cart </font> </p> `)
+                                    };
+                    </script></a></li>
                 </ul>
             </nav>
         </header>
@@ -185,15 +195,11 @@
                         `)
                     };
                     var cart = sessionStorage.length;
-                    if (cart > 0) {
-                        document.write(`
-                            <p>Shopping Cart has <font color="#629DD1">${cart}</font> products</p>
-                        `)
-                    } else {
-                        document.write(`
-                            <p>Shopping cart is currently empty</p>
-                        `)
-                    };
+                                    if (cart > 0) {
+                                        console.log(
+                                            cart
+                                        )
+                                    };
                 </script>
 
             </section>

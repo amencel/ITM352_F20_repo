@@ -21,7 +21,7 @@
 		<script src="js/init.js"></script>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-xlarge.css" />
+            <link rel="stylesheet" href="css/style-xlarge.css" />
     <script> //Made with help from orderpage exercise 4
         //function used from w3schools.com 
         function getCookie(cname) {
@@ -123,7 +123,17 @@
                     </div>
                   </div>
                 </li>
-                <li><a href="./cart.html">Shopping Cart</a></li>
+                <li><a href="./cart.html"><script>
+                    var cart = sessionStorage.length;
+                                if (cart > 0) {
+                                    document.write(`
+                                        <p><font color="#555f66"> Shopping Cart </font> <font color="#629DD1">(${cart})</font></p>
+                                    `)
+                                }
+                                else {
+                                    document.write (`<p> <font color="#555f66"> Shopping Cart </font> </p> `)
+                                };
+                </script></a></li>
             </ul>
         </nav>
     </header>
@@ -189,16 +199,7 @@
                                         <p>Not logged in. Please log in <a href="login.html" style="color": #629DD1; font-size: 1em; font-family: inherit;">here</a></p>
                                     `)
                                 };
-                                var cart = sessionStorage.length;
-                                if (cart > 0) {
-                                    document.write(`
-                                        <p>Shopping Cart has <font color="#629DD1">${cart}</font> products</p>
-                                    `)
-                                } else {
-                                    document.write(`
-                                        <p>Shopping cart is empty</p>
-                                    `)
-                                };
+                                
                             </script>
                         </section>
                     </footer>

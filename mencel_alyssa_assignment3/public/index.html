@@ -18,7 +18,7 @@
 		<script src="js/init.js"></script>
 		<link rel="stylesheet" href="css/skel.css" />
 		<link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" href="css/style-xlarge.css" />
+        <link rel="stylesheet" href="css/style-xlarge.css" />
 </head>
     <script> //made with help from oder page ex4
         //made with help from w3schools.com 
@@ -111,7 +111,17 @@
                         </div>
                       </div>
                     </li>
-                    <li><a href="./cart.html">Shopping Cart</a></li>
+                    <li><a href="./cart.html"><script>
+                        var cart = sessionStorage.length;
+                                    if (cart > 0) {
+                                        document.write(`
+                                            <p><font color="#555f66"> Shopping Cart </font> <font color="#629DD1">(${cart})</font></p>
+                                        `)
+                                    }
+                                    else {
+                                        document.write (`<p> <font color="#555f66"> Shopping Cart </font> </p> `)
+                                    };
+                    </script></a></li>
                 </ul>
             </nav>
         </header>
@@ -170,7 +180,7 @@
                 <div class="row">
                     <div class="6u">
                         <section class="special">
-                            <a href="#" class="image fit"><img src="images/honolulu.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="images/birds.jpg" alt="" /></a>
                             <h3>Our impact</h3>
                             <p>The average person in the US throws away 4.4 lbs of garbage per day. By switching to a lower-waste lifestyle you can save as much as 1,606 lbs of trash per year from landfills.</p>
                             <p>
@@ -180,7 +190,7 @@
                     </div>
                     <div class="6u">
                         <section class="special">
-                            <a href="#" class="image fit"><img src="images/beach.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="images/waves.jpg" alt="" /></a>
                             <h3>Basic Principals for sustainability</h3>
                                <p>Refuse, Reuse, Reduce, Repair, Recycle. Refuse to buy single-use plastic items as much as possible. Reuse the plastic items that you have. Reduce what you don't need, repair what you can. If you can't reuse/repair, then recycle when possible.</p>
                                 <p>Remember that change takes time. Don't be intimidated by the words zero waste. Yes, zero waste is the ultimate goal, but even small lifestyle changes have a huge positive impact. And be
@@ -212,15 +222,11 @@
                         `)
                     };
                     var cart = sessionStorage.length;
-                    if (cart > 0) {
-                        document.write(`
-                            <p>Shopping Cart has <font color="#629DD1">${cart}</font> products</p>
-                        `)
-                    } else {
-                        document.write(`
-                            <p>Shopping cart is currently empty</p>
-                        `)
-                    };
+                                    if (cart > 0) {
+                                        console.log(
+                                            cart
+                                        )
+                                    };
                 </script>
 
             </section>
