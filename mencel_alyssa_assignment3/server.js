@@ -52,8 +52,8 @@ app.post("/generateInvoice", function (request, response) {
             var theUsername = theCookie[i].split('=').pop(); 
         };
         //sets the variable to email 
-        if (key == 'email') { 
-            var email = theCookie[i].split('=').pop(); 
+        if (key == ' email') { 
+            var theEmail = theCookie[i].split('=').pop(); 
         };
 
     }
@@ -98,7 +98,7 @@ app.post("/generateInvoice", function (request, response) {
             </ul>
         </nav>
     </header>
-        <h3 align="center">Thank you for your purchase, <font color="#629DD1">${theUsername}!</font><br />An email copy has been sent to <font color="#629DD1">${email}</font></h3>
+        <h3 align="center">Thank you for your purchase, <font color="#629DD1">${theUsername}!</font><br />An email copy has been sent to <font color="#629DD1">${theEmail}</font></h3>
     
         <!-- template taken from first invoice on assignment1 -->
         <section id="one" class="wrapper style1">
@@ -181,10 +181,10 @@ app.post("/generateInvoice", function (request, response) {
 
     //this code was taken from nodemailer.com
     var transporter = nodemailer.createTransport({ //create the transporter variable
-        service: 'mail.hawaii.edu', //on itmvm webserver have to use the mail from hawaii.edu
+        service: 'mail.hawaii.edu', //notezon itmvm webserver have to use the mail from hawaii.edu
     });
     var mailOptions = {
-        from: 'alyssamencel@gmail.com', //sends the invoice from my email, alyssamencel@gmail.com
+        from: 'amencel@hawaii.edu', //sends the invoice from my email, alyssamencel@gmail.com
         to: email, //sends the email to cookie from the account that was logged in
         subject: 'Invoice',
         html: str //the string then returns as html 
