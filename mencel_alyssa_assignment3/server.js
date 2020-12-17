@@ -126,7 +126,7 @@ app.post("/generateInvoice", function (request, response) {
                             <td style= "text-align: left" width="40%">${allProducts[product][i].name}</td>
                             <td width="20%">${qty}</td>
                             <td width="20%">\$${allProducts[product][i].price}</td>
-                            <td  width="20%">\$${extended_price}</td>
+                            <td  width="20%">\$${extended_price.toFixed(2)}</td>
                         </tr>
                     `;
                     }

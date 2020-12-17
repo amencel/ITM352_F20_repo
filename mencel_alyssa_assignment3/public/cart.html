@@ -174,7 +174,7 @@
                                     <input type="button" class="button alt" value="+1" onclick="addItem('${product}',${i});">
                                     <input type="button" class="button alt" value="-1" onclick="removeItem('${product}',${i});"></td>
                                 <td width="20%">\$${allProducts[product][i].price}</td>
-                                <td  width="20%">\$${extended_price}</td>
+                                <td  width="20%">\$${extended_price.toFixed(2)}</td>
                             </tr>
                         `);
                         }
