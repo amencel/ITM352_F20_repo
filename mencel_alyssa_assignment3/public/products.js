@@ -121,31 +121,31 @@ var kitchen = [
 var kits = [
     //kits product 1
     {
-    "name": "Zero Waste Kitchen & Home Kit",
+    "name": "Kitchen & Home Kit",
     "price": 81.99,
     "image": "./images/homekit.jpg"
     },
     //kits product 2
     {
-    "name": "Zero Waste Mini Starter Kit",
+    "name": "Mini Starter Kit",
     "price": 52.00,
     "image": "./images/mini.jpg"
     },
     //kits product 3
     {
-    "name": "Zero Waste Starter Kit",
+    "name": "Starter Kit",
     "price": 99.99,
     "image": "./images/starter.jpg"
     },
     //kits product 4
     {
-    "name": "Zero Waste To-Go Kit",
+    "name": "To-Go Kit",
     "price": 14.00,
     "image": "./images/togo.jpg"
     },
     //kits product 5
     {
-    "name": "Zero Waste Bathroom Kit",
+    "name": "Bathroom Kit",
     "price": 47.50,
     "image": "./images/bathroom.jpg"
     }
