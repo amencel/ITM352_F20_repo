@@ -179,9 +179,15 @@ app.post("/generateInvoice", function (request, response) {
       </section>`;
                 
 
-    //this code was taken from nodemailer.com
+    //this code was made with help from assignment 3 example 
     var transporter = nodemailer.createTransport({ //create the transporter variable
-        service: 'mail.hawaii.edu', //notezon itmvm webserver have to use the mail from hawaii.edu
+        host: 'mail.hawaii.edu', //note on itmvm webserver have to use the mail from hawaii.edu
+        port: 25,
+        secure: false, //use tls
+        tls: {
+            //do not fail on invalid certs
+            rejectUnauthorized: false
+        }
     });
     var mailOptions = {
         from: 'alyssamencel@gmail.com', //sends the invoice from my email, alyssamencel@gmail.com
@@ -192,6 +198,7 @@ app.post("/generateInvoice", function (request, response) {
     //notification in console if errors in sending email or if it sent properly 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) { 
+            str += '<br>There was an error and your invoice could not be emailed :('
             console.log(error);
         } else { 
             console.log('Email sent: ' + info.response);

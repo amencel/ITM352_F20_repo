@@ -179,9 +179,15 @@ app.post("/generateInvoice", function (request, response) {
       </section>`;
                 
 
-    //this code was taken from nodemailer.com
+    //this code was made with help from assignment 3 example 
     var transporter = nodemailer.createTransport({ //create the transporter variable
-        service: 'mail.hawaii.edu', //notezon itmvm webserver have to use the mail from hawaii.edu
+        host: 'mail.hawaii.edu', //note on itmvm webserver have to use the mail from hawaii.edu
+        port: 25,
+        secure: false, //use tls
+        tls: {
+            //do not fail on invalid certs
+            rejectUnauthorized: false
+        }
     });
     var mailOptions = {
         from: 'alyssamencel@gmail.com', //sends the invoice from my email, alyssamencel@gmail.com

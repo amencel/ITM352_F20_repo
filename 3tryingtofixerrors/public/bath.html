@@ -41,12 +41,12 @@
         };
         //ensures postive intengers 
         function isNonNegInt(q, return_errors = false) { 
-            errors = []; // assume no errors at first
+            has_errors = []; // assume no errors at first
             if (q == "") q = 0; //blank inputs are 0
-            if (Number(q) != q) errors.push('<font color="red">Not a number</font>'); //sees if string is a number
-            if (q < 0) errors.push('<font color="red">Negative number</font>'); //ensures it is non-negative
-            if (parseInt(q) != q) errors.push('<font color="red">Not a full product</font>'); //sees if it is a full number
-            return return_errors ? errors : (errors.length == 0); //gives errors if there are some 
+            if (Number(q) != q) has_errors.push('<font color="red">Not a number</font>'); //sees if string is a number
+            if (q < 0) has_errors.push('<font color="red">Negative number</font>'); //ensures it is non-negative
+            if (parseInt(q) != q) has_errors.push('<font color="red">Not a full product</font>'); //sees if it is a full number
+            return return_errors ? has_errors : (has_errors.length == 0); //gives errors if there are some 
         }
 
         function checkQuantityTextbox(theTextbox) { //gives error message with invalid input 
@@ -69,7 +69,7 @@
             let params = (new URL(document.location)).searchParams; //retrieves the query string for the data 
 
             if (params.has('purchase_submit_button')) { //checks that quantites are valid
-                errors = false; //assumes no errors 
+                has_errors = false; //assumes no errors 
                 total_qty = 0; //must check if something was selected (>0)
 
                 for (i = 0; i < allProducts[product].length; i++) { //this is for every product
@@ -80,7 +80,7 @@
                         total_qty += qty; // adds the most recent textboxes 
 
                         if (!isNonNegInt(qty)) { //if it was not valid 
-                            errors = true; 
+                            has_errors = true; 
                             checkQuantityTextbox(quantity_form[`quantity_textbox${i}`]); //returns error message 
                         }
 
@@ -88,9 +88,9 @@
 
                 }
 
-                if (errors) { //responds or redirects to invoice 
+                if (has_errors) { //responds or redirects to invoice 
                     alert("Please enter valid product amounts");
-                } else if (total_qty == 0) { //must select some products 
+                } else if(total_qty == 0) { //must select some products 
                     alert("Please select a product before submitting your purchase order");
                 }
 
